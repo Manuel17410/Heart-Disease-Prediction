@@ -1,5 +1,4 @@
 pandas
-numpy
 setuptools
 google-cloud-storage
 scikit-learn
@@ -7,3 +6,5 @@ pyyaml
 imbalanced-learn
 lightgbm
 mlflow
+flask
+numpy<2.0
