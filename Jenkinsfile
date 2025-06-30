@@ -37,5 +37,38 @@ pipeline {
                 }
             }
         }
+
+        stage('Check Docker and gcloud') {
+            steps {
+                sh '''
+                echo "Docker version:"
+                docker --version || echo "Docker not found or permission denied"
+
+                echo "gcloud version:"
+                ${GCLOUD_PATH}/gcloud --version || echo "gcloud not found"
+                '''
+            }
+        }
+
+        stage('Building and Pushing Docker Image to GCR') {
+            steps {
+                withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    script {
+                        echo 'Building and Pushing Docker Image to GCR.............'
+                        sh '''
+                        export PATH=$PATH:${GCLOUD_PATH}
+
+                        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+                        gcloud config set project ${GCP_PROJECT}
+                        gcloud auth configure-docker --quiet
+
+                        docker build -t gcr.io/${GCP_PROJECT}/ml-project:latest .
+                        docker push gcr.io/${GCP_PROJECT}/ml-project:latest
+                        '''
+                    }
+                }
+            }
+        }
     }
 }
+
