@@ -24,12 +24,12 @@ pipeline {
             }
         }
 
-        stage('Setting up our Virtual Environment and Installing dependancies') {
+        stage('Setting up Virtual Environment and Installing dependencies') {
             steps {
                 script {
-                    echo 'Setting up our Virtual Environment and Installing dependancies............'
+                    echo 'Setting up Virtual Environment and Installing dependencies............'
                     sh '''
-                    python -m venv ${VENV_DIR}
+                    python3 -m venv ${VENV_DIR}
                     . ${VENV_DIR}/bin/activate
                     pip install --upgrade pip
                     pip install -e .
@@ -38,10 +38,16 @@ pipeline {
             }
         }
 
-        stage('Building and Pushing Docker Image to GCR') {
+        stage('Verify Dockerfile and Build & Push Docker Image to GCR') {
             steps {
                 withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
                     script {
+                        echo 'Verifying Dockerfile presence and contents...'
+                        sh '''
+                        ls -l Dockerfile
+                        head -20 Dockerfile
+                        '''
+
                         echo 'Building and Pushing Docker Image to GCR.............'
                         sh '''
                         export PATH=$PATH:${GCLOUD_PATH}
@@ -51,11 +57,11 @@ pipeline {
                         gcloud auth configure-docker --quiet
 
                         docker build -t gcr.io/${GCP_PROJECT}/ml-project:latest .
-                        docker push gcr.io/${GCP_PROJECT}/ml-project:latest 
+                        docker push gcr.io/${GCP_PROJECT}/ml-project:latest
                         '''
                     }
                 }
             }
         }
-    } // <-- this closes the 'stages' block
-} // <-- this closes the 'pipeline' block
+    }
+}
