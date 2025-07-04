@@ -1,19 +1,29 @@
+FROM python:3.9-slim
+
 USER root
 
-# Install Python 3 and venv
-RUN apt-get update && apt-get install -y python3 python3-venv python3-pip
+RUN apt-get update && apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release \
+    python3-venv \
+    docker.io && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install prerequisites and Docker
-RUN apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
-    echo "deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable" > /etc/apt/sources.list.d/docker.list && \
-    apt-get update -y && \
-    apt-get install -y docker-ce docker-ce-cli containerd.io && \
-    apt-get clean
+# RUN ln -sf /usr/local/bin/python /usr/local/bin/python3
 
-# Add Jenkins user to Docker group
-RUN groupadd -f docker && usermod -aG docker jenkins
+RUN groupadd -g 1000 jenkins && \
+    useradd -d /home/jenkins -u 1000 -g jenkins -m jenkins
+
+WORKDIR /home/jenkins
 
 USER jenkins
+
+ENV PATH="/usr/bin:${PATH}"
+
+
+
 
 
