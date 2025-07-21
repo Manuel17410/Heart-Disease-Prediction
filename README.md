@@ -22,18 +22,9 @@ The Project contains the following code files that will be shortly explained:
 * prediction_pipeline.py
 * home.html
 * appy.py
+* Docker Files
+* Jenkins Files
 
-## Resources Used
-
-**Python Version**: 3.12.7
-
-**Code Editor**: Visual Studio Code
-
-**Packages**: numpy, pandas, matplotlib, seaborn, scikit-learn, ipykernel, catboost, xgboost, dill, flask, flask_cors, lime, os
-
-**Dataset**: www.kaggle.com/datasets/ayaz11/used-car-price-prediction
-
-**ProcessedDataset**: https://drive.google.com/file/d/1ViJxsGsbHPXD380_0GPYJbg1wuJoQOVJ/view?usp=drive_link
 
 ## Code Files
 
