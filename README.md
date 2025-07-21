@@ -12,7 +12,6 @@ The Project contains the following code files that will be shortly explained:
 * setup.py
 * .gitignore
 * requirements.txt
-* jupyter notebook-usedcarpriceprediction
 * custom_logging.py
 * exception.py
 * utils.py
@@ -40,13 +39,6 @@ It specifies files and directories Git should ignore to prevent them from being 
 
 It includes all the necessary libraries for the project. The main goal is to make installation smoother.
 
-## UsedCarPricePrediction.ipynb
-
-The main goal of this file was to:
-
-1 - Clean and structure the data: duplicated values and outliers were eliminated, datatypes were corrected, columns were divided to create others that added more value to the analysis, column values were addapted.
-2 - Various graphs were generated to gain insights and better understand the data.
-
 ## Customlogging.py
 
 The code sets up a logging system that creates a uniquely named log file (based on the current timestamp) in a `logs` directory, formats log messages with details (timestamp, line number, log level, etc.), and logs messages at the INFO level or higher.
@@ -69,11 +61,11 @@ This script is responsible for transforming and preprocessing data. It defines a
 
 ## model_builder.py
 
-This script trains different machine learning models on the processed data, using a variety of regression algorithms like Random Forest, Decision Tree, and XGBRegressor. It evaluates each model's performance, selects the best model based on its score, and saves this model to a file. The script also computes the R-squared score of the best model on the test set and returns this score.
+This script trains different machine learning models and evaluates each model's performance, selects the best model based on its score, and saves this model to a file. The script also computes the R-squared score of the best model on the test set and returns this score.
 
 ## predictpipeline.py
 
-It loads a pre-trained model and preprocessor from files, scales the input features, and returns predictions based on the processed data. The `CustomData` class stores user-provided car data (like year, miles, accidents, etc.) and converts it into a `pandas` DataFrame for prediction. Both classes include error handling with a custom exception (`CustomException`) to manage failures during their operations.
+It loads a pre-trained model and preprocessor from files, scales the input features, and returns predictions based on the processed data. 
 
 ## home.html
 
@@ -81,4 +73,4 @@ It defines the FrontEnd using HTML.
 
 ## app.py
 
-This code defines a Flask web application with two routes: the home page (`/`) and a prediction page (`/predictdata`). The home page renders an HTML template (`index.html`), while the prediction page handles both GET and POST requests. For POST requests, it collects user input (e.g., car details), creates a `CustomData` object, and uses a `PredictPipeline` to generate predictions. The results are then displayed on the same page. The application runs in debug mode on any available IP address.
+This code defines a Flask web application with two routes: the home page (`/`) and a prediction page (`/predictdata`). 
